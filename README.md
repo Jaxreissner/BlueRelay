@@ -40,4 +40,5 @@ this is an early-stage project built by a student for real-world emergency use c
 wanna help? open an issue or send a pull request!
 
 BlueRelay © 2025 by Jax Reissner is licensed under CC BY-NC 4.0 
+
 ![License](https://img.shields.io/badge/License-CC_BY--NC--SA_4.0-lightgrey)

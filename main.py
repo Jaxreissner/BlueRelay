@@ -1,22 +1,39 @@
+from flask import Flask, render_template_string
 import requests
 
-def fetch_weather_alerts():
+app = Flask(__name__)
+
+@app.route("/")
+def home():
     url = "https://api.weather.gov/alerts/active"
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
         data = response.json()
 
-        print("Current Alerts:")
-        for alert in data['features'][:5]:  # limit to first 5 for testing
+        alerts = []
+        for alert in data['features'][:5]:
             props = alert['properties']
-            print(f"- {props['headline']}")
-            print(f"  Severity: {props['severity']}")
-            print(f"  Area: {props['areaDesc']}")
-            print(f"  More info: {props['web']}")
-            print()
+            alerts.append({
+                'headline': props['headline'],
+                'severity': props['severity'],
+                'area': props['areaDesc'],
+                'url': props['web']
+            })
+
+        return render_template_string("""
+        <h1>BlueRelay: Weather Alerts</h1>
+        {% for a in alerts %}
+            <h2>{{ a.headline }}</h2>
+            <p><strong>Severity:</strong> {{ a.severity }}</p>
+            <p><strong>Area:</strong> {{ a.area }}</p>
+            <a href="{{ a.url }}" target="_blank">View full alert</a>
+            <hr>
+        {% endfor %}
+        """, alerts=alerts)
+
     except Exception as e:
-        print("error fetching alerts:", e)
+        return f"<h1>error</h1><p>{e}</p>"
 
 if __name__ == "__main__":
-    fetch_weather_alerts()
+    app.run(host="0.0.0.0", port=3000)

@@ -14,6 +14,10 @@ class Alert(BaseModel):
     url: str
     transfers: int = 0
 
+@app.get("/")
+def home():
+    return {"message": "welcome to BlueRelay backend API! head over to /alerts for alerts."}
+
 @app.post("/alerts", response_model=Alert)
 def create_alert(alert: Alert):
     if alert.id in alerts_db:

@@ -1,0 +1,10 @@
+[
+  {
+    "id": "1",
+    "headline": "Test Alert",
+    "severity": "Critical",
+    "area": "Test Area",
+    "url": "https://example.com",
+    "transfers": 0
+  }
+]
